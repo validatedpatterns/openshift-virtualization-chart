@@ -1,0 +1,7 @@
+---
+cnv:
+  debug:
+    useEmulation: false
+
+namespaceOverride: openshift-cnv
+sriovLiveMigration: false
