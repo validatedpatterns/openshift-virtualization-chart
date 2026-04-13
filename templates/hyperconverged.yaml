@@ -22,7 +22,7 @@ spec:
       duration: 24h0m0s
       renewBefore: 12h0m0s
   featureGates:
-    enableCommonBootImageImport: true
+    enableCommonBootImageImport: {{ .Values.enableCommonBootImageImport }}
 {{- if .Values.sriovLiveMigration }}
     sriovLiveMigration: true
 {{- end }}

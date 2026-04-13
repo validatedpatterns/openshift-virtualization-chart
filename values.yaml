@@ -5,3 +5,4 @@ cnv:
 
 namespaceOverride: openshift-cnv
 sriovLiveMigration: false
+enableCommonBootImageImport: true
