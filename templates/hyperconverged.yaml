@@ -14,6 +14,11 @@ metadata:
   name: kubevirt-hyperconverged
   namespace: openshift-cnv
 spec:
+  {{- if .Values.cnv.debug.useEmulation }}
+  configuration:
+    developerConfiguration:
+      useEmulation: true
+  {{- end }}
   certConfig:
     ca:
       duration: 48h0m0s
@@ -21,8 +26,8 @@ spec:
     server:
       duration: 24h0m0s
       renewBefore: 12h0m0s
+  enableCommonBootImageImport: {{ .Values.enableCommonBootImageImport }}
   featureGates:
-    enableCommonBootImageImport: {{ .Values.enableCommonBootImageImport }}
 {{- if .Values.sriovLiveMigration }}
     sriovLiveMigration: true
 {{- end }}
