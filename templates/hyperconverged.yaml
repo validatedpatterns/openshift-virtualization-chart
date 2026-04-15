@@ -26,7 +26,9 @@ spec:
     server:
       duration: 24h0m0s
       renewBefore: 12h0m0s
+{{- if semverCompare ">=4.19" .Values.global.clusterVersion }}
   enableCommonBootImageImport: {{ .Values.enableCommonBootImageImport }}
+{{- end }}
   featureGates:
 {{- if .Values.sriovLiveMigration }}
     sriovLiveMigration: true
