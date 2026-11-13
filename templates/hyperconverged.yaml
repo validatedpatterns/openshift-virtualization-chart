@@ -33,7 +33,6 @@ spec:
 {{- if .Values.sriovLiveMigration }}
     sriovLiveMigration: true
 {{- end }}
-    withHostPassthroughCPU: false
   infra: {}
   liveMigrationConfig:
     completionTimeoutPerGiB: 800
