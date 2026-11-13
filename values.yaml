@@ -9,3 +9,13 @@ global:
 namespaceOverride: openshift-cnv
 sriovLiveMigration: false
 enableCommonBootImageImport: true
+
+# -- Set to false to skip all virt-autopilot managed configuration
+# (OpenShift Virtualization >= 5.0). virt-autopilot automatically applies
+# opinionated postinstallation defaults: load-aware descheduler tuning,
+# observability dashboards and alerts, swap and node tuning, and more.
+# Skipping it adds the platform.kubevirt.io/disabled-resources annotation
+# to the HyperConverged CR so that the controller does not create or
+# reconcile those resources.
+virtAutopilot:
+  enabled: true

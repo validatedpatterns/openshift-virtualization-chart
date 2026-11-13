@@ -1,0 +1,38 @@
+---
+suite: HyperConverged CR
+templates:
+  - templates/hyperconverged.yaml
+tests:
+  - it: does not disable virt-autopilot resources by default
+    asserts:
+      - notExists:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
+
+  - it: disables all virt-autopilot resources when virtAutopilot.enabled is false
+    set:
+      virtAutopilot:
+        enabled: false
+    asserts:
+      - exists:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
+      - matchRegex:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
+          pattern: "kind: HyperConverged"
+      - matchRegex:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
+          pattern: "kind: KubeDescheduler"
+      - matchRegex:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
+          pattern: "kind: MachineConfig"
+      - matchRegex:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
+          pattern: 'name: "\*"'
+
+  - it: keeps the deployOVS annotation when skipping virt-autopilot
+    set:
+      virtAutopilot:
+        enabled: false
+    asserts:
+      - equal:
+          path: metadata.annotations.deployOVS
+          value: "false"
