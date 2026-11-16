@@ -3,15 +3,7 @@ suite: HyperConverged CR
 templates:
   - templates/hyperconverged.yaml
 tests:
-  - it: does not disable virt-autopilot resources by default
-    asserts:
-      - notExists:
-          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
-
-  - it: disables all virt-autopilot resources when virtAutopilot.enabled is false
-    set:
-      virtAutopilot:
-        enabled: false
+  - it: disables all virt-autopilot resources by default
     asserts:
       - exists:
           path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
@@ -27,6 +19,14 @@ tests:
       - matchRegex:
           path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
           pattern: 'name: "\*"'
+
+  - it: does not disable virt-autopilot resources when virtAutopilot.enabled is true
+    set:
+      virtAutopilot:
+        enabled: true
+    asserts:
+      - notExists:
+          path: "metadata.annotations['platform.kubevirt.io/disabled-resources']"
 
   - it: keeps the deployOVS annotation when skipping virt-autopilot
     set:
