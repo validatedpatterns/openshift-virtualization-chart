@@ -7,6 +7,67 @@ kind: HyperConverged
 metadata:
   annotations:
     deployOVS: "false"
+  {{- if not .Values.virtAutopilot.enabled }}
+    # Skip all virt-autopilot managed configuration (OpenShift Virtualization >= 5.0).
+    # Rules only match resources rendered by virt-autopilot itself. The kind
+    # list mirrors the asset catalog of virt-platform-autopilot and may need
+    # updating as new features are added there.
+    platform.kubevirt.io/disabled-resources: |
+      - kind: HyperConverged
+        name: kubevirt-hyperconverged
+      # Observability
+      - kind: Service
+        name: "*"
+      - kind: ServiceMonitor
+        name: "*"
+      - kind: PrometheusRule
+        name: "*"
+      - kind: PersesDashboard
+        name: "*"
+      - kind: PersesDatasource
+        name: "*"
+      # Node tuning
+      - kind: MachineConfig
+        name: "*"
+      - kind: MachineConfiguration
+        name: "*"
+      - kind: ConfigMap
+        name: "*"
+      # Operators and components
+      - kind: KubeDescheduler
+        name: "*"
+      - kind: UIPlugin
+        name: "*"
+      - kind: OperationRuleSet
+        name: "*"
+      - kind: ForkliftController
+        name: "*"
+      - kind: MetalLB
+        name: "*"
+      - kind: LokiStack
+        name: "*"
+      - kind: ClusterLogForwarder
+        name: "*"
+      - kind: NodeHealthCheck
+        name: "*"
+      - kind: StorageBasedRemediationConfig
+        name: "*"
+      - kind: DaemonSet
+        name: "*"
+      # Supporting resources
+      - kind: Namespace
+        name: "*"
+      - kind: ServiceAccount
+        name: "*"
+      - kind: ClusterRole
+        name: "*"
+      - kind: ClusterRoleBinding
+        name: "*"
+      - kind: SecurityContextConstraints
+        name: "*"
+      - kind: NetworkPolicy
+        name: "*"
+  {{- end }}
   finalizers:
   - kubevirt.io/hyperconverged
   labels:
